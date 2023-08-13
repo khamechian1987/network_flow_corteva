@@ -56,8 +56,7 @@ def filter_data(data_df,cnt,amo,fp):
     #when amount is less than the amount in the row
     flag = 0
     for index, datainonerow in filtered_df.iterrows():
-        #print(amo,datainonerow['Amount'],datainonerow['Amount'] <= amo,amo - datainonerow['Amount']  )
-        if datainonerow['Amount'] <= amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
+       if datainonerow['Amount'] <= amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
             tempdf = data
             if fp == 'Sourcing':
                 for i in data_df.columns:
@@ -77,6 +76,7 @@ def filter_data(data_df,cnt,amo,fp):
                 lessamodf = pd.DataFrame([datainonerow])
             else:
                 lessamodf = lessamodf.append(datainonerow, ignore_index=True)
+    
         elif datainonerow['Amount'] > amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
             tempdf = data
             if fp == 'Sourcing':
@@ -113,13 +113,11 @@ output_df = pd.DataFrame(columns=[
     ])
 for index,datainonerow in dels.iterrows(): #rows with delivery process
     row_index_list = [len(output_df)]
-    #delList = [datainonerow.iloc[4],datainonerow.iloc[3],]
     for row_index in row_index_list:
         output_df.at[row_index, 'Process5'] = datainonerow.iloc[4]
         output_df.at[row_index, 'Cnt5'] = datainonerow.iloc[3]
         output_df.at[row_index, 'Week5'] = datainonerow.iloc[5]
         output_df.at[row_index, 'Amount5'] = datainonerow.iloc[6]
-    # print(datainonerow.iloc[4],datainonerow.iloc[3],datainonerow.iloc[5])
     amo = datainonerow['Amount'] # amo is updated amount
     filter_data_df_forward,changinAmo = filter_data(data,datainonerow['send_from_cnt'],amo,'Forwarding')
     flag4 = 0
@@ -127,10 +125,8 @@ for index,datainonerow in dels.iterrows(): #rows with delivery process
     amo1 = []
     amo2 = []
     amo3 = []
-    for datainonerow1 in range(0,len(filter_data_df_forward)):
-        # Forwarding dict[Forwarding] = [datainonerow]
+    for datainonerow1 in range(0,len(filter_data_df_forward)): #rows with Forwarding process
         datainonerow1 = filter_data_df_forward.iloc[datainonerow1]
-
         if changinAmo:
             print('Process4 Before', amo)
             amo = datainonerow1['Amount']
@@ -150,7 +146,7 @@ for index,datainonerow in dels.iterrows(): #rows with delivery process
         filter_data_df_treat,changinAmo1= filter_data(data,datainonerow1['send_from_cnt'],amo,'Treatment')
         print(row_index_list)
         flag3 = 0
-        for index, datainonerow2 in filter_data_df_treat.iterrows():
+        for index, datainonerow2 in filter_data_df_treat.iterrows(): #rows with treatment process
             if changinAmo1:
                 print('Process3 Before', amo)
                 amo = datainonerow2['Amount']
@@ -173,7 +169,7 @@ for index,datainonerow in dels.iterrows(): #rows with delivery process
             print(row_index_list)
             flag2 = 0
 
-            for index, datainonerow3 in filter_data_df_cond.iterrows():
+            for index, datainonerow3 in filter_data_df_cond.iterrows(): #rows with Conditioning process
 
                 if changinAmo2:
                     print('Process2 Before', amo)
@@ -195,16 +191,14 @@ for index,datainonerow in dels.iterrows(): #rows with delivery process
                 filter_data_df_sor,changinAmo3  = filter_data(data,datainonerow3['send_from_cnt'],amo,'Sourcing')
                 print(filter_data_df_sor)
                 print(row_index_list)
+                
                 flag1 = 0
-
-                for index, datainonerow4 in filter_data_df_sor.iterrows():
-
+                for index, datainonerow4 in filter_data_df_sor.iterrows(): #rows with Sourcing process
                     if changinAmo3:
                         print('Process1 Before', amo)
                         amo = datainonerow4['Amount']
                         amo1.append(amo)
-                        print('Process1', amo)
-                        
+                        print('Process1', amo)   
                     else:
                         amo1.append(amo)
                     print(amo1,row_index_list)
