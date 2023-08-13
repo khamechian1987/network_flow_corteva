@@ -76,8 +76,7 @@ def filter_data(data_df,cnt,amo,fp):
                 lessamodf = pd.DataFrame([datainonerow])
             else:
                 lessamodf = lessamodf.append(datainonerow, ignore_index=True)
-    
-        elif datainonerow['Amount'] > amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
+       elif datainonerow['Amount'] > amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
             tempdf = data
             if fp == 'Sourcing':
                 for i in data_df.columns:
