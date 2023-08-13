@@ -1,6 +1,11 @@
 # network_flow_corteva
 # solving approach
-the algorithm pseudocode is attached.
+in summary, I created a function to handle all 3 possible scenarios that could happen when it wants to trace back a process. 
+1. amounts are equal
+2. amount in the previous process is greater than what it needed in the next process
+3. amount in previous process is less than what it needed in next process
+
+then I looped over each process and called the function in each loop. algorithm and function process is attached.
 
 # instruction
 in line 2 change the "sheet_name:" to desired input
