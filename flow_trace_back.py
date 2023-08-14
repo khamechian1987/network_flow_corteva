@@ -13,7 +13,7 @@ def filter_data(data_df,cnt,amo,fp):
     
     #when amount is equal to the amount in the row
     for index, datainonerow in filtered_df.iterrows():
-        if datainonerow['Amount'] == amo or abs(amo - datainonerow['Amount']) < 0.4:
+        if datainonerow['Amount'] == amo or abs(amo - datainonerow['Amount']) < 0.04:
             tempdf = data
             #sourcing does not have send_from_cnt
             #remove send_from_cnt from if
@@ -32,7 +32,7 @@ def filter_data(data_df,cnt,amo,fp):
                 data.at[tempdf.index[0], 'Amount'] -= amo
 
             datainonerow = pd.DataFrame([datainonerow])
-            return datainonerow,0 #return 0 if amount is equal to the amount in the row
+            return datainonerow,0 
 
     #when amount is greater than the amount in the row
     for index, datainonerow in filtered_df.iterrows():
@@ -57,7 +57,7 @@ def filter_data(data_df,cnt,amo,fp):
     #when amount is less than the amount in the row
     flag = 0
     for index, datainonerow in filtered_df.iterrows():
-       if datainonerow['Amount'] <= amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
+       if datainonerow['Amount'] <= amo or abs(amo - datainonerow['Amount']) < 0.04 and amo != 0:
             tempdf = data
             if fp == 'Sourcing':
                 for i in data_df.columns:
@@ -77,7 +77,7 @@ def filter_data(data_df,cnt,amo,fp):
                 lessamodf = pd.DataFrame([datainonerow])
             else:
                 lessamodf = lessamodf.append(datainonerow, ignore_index=True)
-       elif datainonerow['Amount'] > amo or abs(amo - datainonerow['Amount']) < 0.4 and amo != 0:
+       elif datainonerow['Amount'] > amo or abs(amo - datainonerow['Amount']) < 0.04 and amo != 0:
             tempdf = data
             if fp == 'Sourcing':
                 for i in data_df.columns:
