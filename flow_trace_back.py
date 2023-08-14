@@ -2,6 +2,7 @@ import pandas as pd
 data = pd.read_excel('NetworkFlowProblem-Data.xlsx',sheet_name='Input4')
 dels = data[data.for_process=='Delivery']
 dels = dels.sort_values(by='Amount', ascending=False)
+# dels = dels.sort_values(by='Week', ascending=True)
 def filter_data(data_df,cnt,amo,fp):
     global data
     filtered_df = data_df[
